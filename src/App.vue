@@ -22,7 +22,7 @@
         >
           Open Link
         </v-btn>
-        <!--<button @click="copyCodeClipboard()">copy to clipboard</button>-->
+        <button @click="copyCodeClipboard()">copy to clipboard</button>
       </div>
       <div v-if="!code">
         <h3>Scan a QR code!</h3>
@@ -65,7 +65,7 @@ export default {
   created() {
     // Binding function to all the event types
     //this.TWA.onEvent('themeChanged', this.themeChanged);
-    this.TWA.MainButton.setText("Scan QR code");
+    this.TWA.MainButton.setText("Scan QR");     // LOCALE
     this.TWA.onEvent('qrTextReceived', this.processQRCode);
     this.TWA.onEvent('mainButtonClicked', this.mainButtonClicked);
 
@@ -116,13 +116,13 @@ export default {
       // light medium heavy rigid soft
       this.TWA.HapticFeedback.impactOccurred("heavy");
     },
-    //copyCodeClipboard() {
-    //  var Url = this.$refs.mylink;
-    //  Url.innerHTML = window.location.href;
-    //  console.log(Url.innerHTML)
-    //  Url.select();
-    //  document.execCommand("copy");
-    //}
+    copyCodeClipboard() {
+      var Url = this.$refs.mylink;
+      Url.innerHTML = window.location.href;
+      console.log(Url.innerHTML)
+      Url.select();
+      document.execCommand("copy");
+    }
   }
 }
 </script>
