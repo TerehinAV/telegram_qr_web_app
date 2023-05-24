@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import { prepareUrl } from './helpers'
+import { prepareUrl } from './telegram_qr_web_app/helpers'
 
 export default {
   data() {
