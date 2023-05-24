@@ -1,5 +1,5 @@
 import { createApp } from 'vue'
-import App from './telegram_qr_web_app/App.vue'
+import App from './App.vue'
 
 // Vuetify
 import 'vuetify/styles'
