@@ -1,53 +1,15 @@
 <template>
   <div id="main">
-    <div
-      v-if="is_telegram_client && is_telegram_api_updated"
-      class="text-center"
-    >
-      <!--<h3>Window Control</h3>
-      <b>isExpanded</b>: {{ TWA.isExpanded }}
-      <button @click="TWA.expand()">Expand</button>
-      <button @click="TWA.close()">Close</button><br>
-      <h3>Functions and buttons</h3>
-      -->
-
-      <div v-if="code">
-        <h3>QR code:</h3>
-        {{ code }} <br>
-
-        <v-btn
-          v-if="is_url"
-          size="large"
-          @click="openLink()"
-        >
-          Open Link
-        </v-btn>
-        <button @click="copyCodeClipboard()">copy to clipboard</button>
-      </div>
-      <div v-if="!code">
-        <h3>Scan a QR code!</h3>
-      </div>
-    </div>
-
-
-
-    <div
-      v-if="!is_telegram_client"
-      class="text-center"
-    >
+    <div v-if="!is_telegram_client" class="text-center">
       Please open the app from a Telegram client!<br>
     </div>
-    <div
-      v-if="is_telegram_client && !is_telegram_api_updated"
-      class="text-center"
-    >
+    <div v-if="is_telegram_client && !is_telegram_api_updated" class="text-center">
       Please update Telegram to Use the app!<br>
       Telegram API version needed 6.4 or greater.<br>
       Your Telegram API version: {{ TWA.version }}
     </div>
   </div>
 </template>
-
 
 <script>
 import { prepareUrl } from './helpers'
@@ -64,10 +26,10 @@ export default {
   },
   created() {
     // Binding function to all the event types
-    //this.TWA.onEvent('themeChanged', this.themeChanged);
-    this.TWA.MainButton.setText("Scan QR");     // LOCALE
+    // this.TWA.onEvent('themeChanged', this.themeChanged);
+    // this.TWA.MainButton.setText("Scan QR");     // LOCALE
     this.TWA.onEvent('qrTextReceived', this.processQRCode);
-    this.TWA.onEvent('mainButtonClicked', this.mainButtonClicked);
+    // this.TWA.onEvent('mainButtonClicked', this.mainButtonClicked);
 
     this.is_telegram_api_updated = this.TWA.isVersionAtLeast('6.4');
     // platform not updated if version is not 6.4 or greater
@@ -77,7 +39,7 @@ export default {
     }
 
     if (this.is_telegram_client && this.is_telegram_api_updated) {
-      this.TWA.MainButton.show();
+      // this.TWA.MainButton.show();
       this.showQRScanner();
     }
   },
@@ -89,11 +51,11 @@ export default {
     themeChanged() {
       //this.TWA.showAlert('Theme has changed');
     },
-    mainButtonClicked() {
-      this.showQRScanner();
-    },
-    openLink() {
-      this.TWA.openLink(this.url);
+    // mainButtonClicked() {
+    //   this.showQRScanner();
+    // },
+    onAlertClose() {
+        this.TWA.close();
     },
     processQRCode(data) {
        this.code = data.data;
@@ -102,8 +64,10 @@ export default {
        this.url = result.value;
        this.hapticImpact();
        this.TWA.closeScanQrPopup();
-
-       //this.TWA.showAlert(data.data);
+       navigator.clipboard.writeText(result.value).then(
+            () => {this.TWA.showAlert('Text copied to clipboard', () => {this.TWA.close()});},
+            () => {this.TWA.close()}
+       );
     },
     // End of callbacks
     showQRScanner() {

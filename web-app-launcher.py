@@ -20,6 +20,7 @@ import aiogram
 from aiogram.contrib.fsm_storage.redis import RedisStorage
 from aiogram.dispatcher import Dispatcher
 from aiogram.utils import executor
+
 TOKEN = os.environ['TOKEN']
 URL = 'https://mboretto.github.io/easy-qr-scan-bot/'
 REDIS_HOST = 'localhost'
@@ -31,8 +32,17 @@ logger = logging.getLogger(__name__)
 
 loop = asyncio.get_event_loop()
 bot = aiogram.Bot(token=TOKEN, loop=loop)
+
 storage = RedisStorage(host=REDIS_HOST, db=5)
 dp = Dispatcher(bot, storage=storage)
+
+
+async def _add_menu_button():
+    menu_button = aiogram.types.MenuButtonWebApp(text="Scan QR", web_app=aiogram.types.WebAppInfo(url=URL))
+    print(await bot.set_chat_menu_button(menu_button=menu_button))
+
+
+loop.create_task(_add_menu_button())
 
 
 @dp.message_handler(chat_type=[aiogram.types.ChatType.PRIVATE], state="*", commands=['scan'])
