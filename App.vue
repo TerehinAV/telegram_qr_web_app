@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import { prepareUrl } from 'helpers'
+import { prepareUrl } from './helpers'
 
 export default {
   data() {
