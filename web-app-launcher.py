@@ -22,7 +22,7 @@ from aiogram.dispatcher import Dispatcher
 from aiogram.utils import executor
 
 TOKEN = os.environ['TOKEN']
-URL = 'https://mboretto.github.io/easy-qr-scan-bot/'
+URL = 'https://terehinav.github.io/telegram_qr_web_app/'
 REDIS_HOST = 'localhost'
 
 logging.basicConfig(

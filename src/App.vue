@@ -27,9 +27,9 @@ export default {
   created() {
     // Binding function to all the event types
     // this.TWA.onEvent('themeChanged', this.themeChanged);
-    // this.TWA.MainButton.setText("Scan QR");     // LOCALE
+    this.TWA.MainButton.setText("Scan QR");     // LOCALE
     this.TWA.onEvent('qrTextReceived', this.processQRCode);
-    // this.TWA.onEvent('mainButtonClicked', this.mainButtonClicked);
+    this.TWA.onEvent('mainButtonClicked', this.mainButtonClicked);
 
     this.is_telegram_api_updated = this.TWA.isVersionAtLeast('6.4');
     // platform not updated if version is not 6.4 or greater
@@ -39,7 +39,7 @@ export default {
     }
 
     if (this.is_telegram_client && this.is_telegram_api_updated) {
-      // this.TWA.MainButton.show();
+      this.TWA.MainButton.show();
       this.showQRScanner();
     }
   },
@@ -48,14 +48,11 @@ export default {
   },
   methods: {
     // attached with onEvent function during created
-    themeChanged() {
-      //this.TWA.showAlert('Theme has changed');
-    },
-    // mainButtonClicked() {
-    //   this.showQRScanner();
+    // themeChanged() {
+    //   this.TWA.showAlert('Theme has changed');
     // },
-    onAlertClose() {
-        this.TWA.close();
+    mainButtonClicked() {
+       this.showQRScanner();
     },
     processQRCode(data) {
        this.code = data.data;
@@ -79,24 +76,12 @@ export default {
     hapticImpact() {
       // light medium heavy rigid soft
       this.TWA.HapticFeedback.impactOccurred("heavy");
-    },
-    copyCodeClipboard() {
-      var Url = this.$refs.mylink;
-      Url.innerHTML = window.location.href;
-      console.log(Url.innerHTML)
-      Url.select();
-      document.execCommand("copy");
     }
   }
 }
 </script>
 
 <style scoped>
-/*
-bg_color            .
-secondary_bg_color  var(--tg-theme-secondary-bg-color)
-link_color          var(--tg-theme-link-color).
-*/
 #main {
   background-color: var(--tg-theme-bg-color, white);
   color: var(--tg-theme-text-color, black);
