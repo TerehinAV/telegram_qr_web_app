@@ -25,7 +25,7 @@
         <!--<button @click="copyCodeClipboard()">copy to clipboard</button>-->
       </div>
       <div v-if="!code">
-        <h3>Scan a QR code!</h3>
+        <h3>Press scan button!</h3>
       </div>
     </div>
 
